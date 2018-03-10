@@ -45,16 +45,16 @@
 #define THISCALL __thiscall
 
 const char *pattern =
-"\x83\xEC\x08"          /*sub esp,0x8*/ \
-"\x53"                  /*push ebx*/ \
-"\x8B\x5C\x24\x14"      /*mov ebx,DWORD PTR [esp+0x14]*/ \
-"\x55"                  /*push ebp*/ \
-"\x8B\x6C\x24\x14"      /*mov ebp,DWORD PTR [esp+0x14]*/ \
-"\x56"                  /*push esi*/ \
-"\x33\xF6"              /*xor esi,esi*/ \
-"\x57"                  /*push edi*/ \
-"\x8B\xF9"              /*mov edi,ecx*/ \
-"\x89\x74\x24\x10"      /*mov DWORD PTR [esp+0x10],esi*/ \
+"\x55\x8B\xEC"          /*sub esp,0x8*/ \
+"\x83"                  /*push ebx*/ \
+"\xEC\x0C\x53\x8B"      /*mov ebx,DWORD PTR [esp+0x14]*/ \
+"\x5D"                  /*push ebp*/ \
+"\x0C\x56\x57\x8B"      /*mov ebp,DWORD PTR [esp+0x14]*/ \
+"\xF9"                  /*push esi*/ \
+"\xC7\x45"              /*xor esi,esi*/ \
+"\xFC"                  /*push edi*/ \
+"\x00\x00"              /*mov edi,ecx*/ \
+"\x00\x00\x33\xF6"      /*mov DWORD PTR [esp+0x10],esi*/ \
 "\x8B\x04\xB7"          /*mov eax,DWORD PTR [edi+esi*4]*/ \
 "\x85\xC0";             /*test eax,eax*/
 
@@ -141,7 +141,7 @@ public:
                     addr,
                     m::get_func_addr(&HOOK_CFilterScripts__OnPlayerCommandText));
 
-                logprintf("%s plugin v%s by urShadow loaded", kName, kVersion);
+                logprintf("%s plugin v%s by urShadow loaded (RW:MP adaptation)", kName, kVersion);
 
                 return true;
             }
@@ -740,7 +740,7 @@ private:
         return 0;
     }
 
-    static int THISCALL HOOK_CFilterScripts__OnPlayerCommandText(void *_this, cell playerid, const char *szCommandText) {
+    int THISCALL HOOK_CFilterScripts__OnPlayerCommandText(void *_this, cell playerid, const char *szCommandText) {
         ProcessCommand(playerid, szCommandText);
 
         return 1;
