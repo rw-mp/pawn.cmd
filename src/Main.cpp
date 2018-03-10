@@ -65,15 +65,15 @@ const char *mask = "xxxxxxxxxxxxxxxxxxxxxxxxxxxx";
 const char *pattern =
 "\x55"                          /*push ebp*/ \
 "\x89\xE5"                      /*mov ebp,esp*/ \
-"\x57"                          /*push edi*/ \
-"\x56"                          /*push esi*/ \
-"\x53"                          /*push ebx*/ \
-"\x83\xEC\x2C"                  /*sub esp,0x2c*/ \
-"\x8B\x75\x08"                  /*mov esi,DWORD PTR [ebp+0x8]*/ \
-"\xC7\x45\xE4\x00\x00\x00\x00"  /*mov DWORD PTR [ebp-0x1c],0x0*/ \
-"\x8B\x7D\x10"                  /*mov edi,DWORD PTR [ebp+0x10]*/ \
-"\x89\xF3"                      /*mov ebx,esi*/ \
-"\xEB\x14";                     /*jmp 0x2e*/
+"\x83"                          /*push edi*/ \
+"\xEC"                          /*push esi*/ \
+"\x38"                          /*push ebx*/ \
+"\x8B\x45\x08"                  /*sub esp,0x2c*/ \
+"\x89\x45\xD4"                  /*mov esi,DWORD PTR [ebp+0x8]*/ \
+"\x8B\x45\x10\x89\x45\xD0\x65"  /*mov DWORD PTR [ebp-0x1c],0x0*/ \
+"\xA1\x14\x00"                  /*mov edi,DWORD PTR [ebp+0x10]*/ \
+"\x00\x00"                      /*mov ebx,esi*/ \
+"\x89\x45";                     /*jmp 0x2e*/
 
 const char *mask = "xxxxxxxxxxxxxxxxxxxxxxxxxx";
 #endif
@@ -740,7 +740,7 @@ private:
         return 0;
     }
 
-    int THISCALL HOOK_CFilterScripts__OnPlayerCommandText(void *_this, cell playerid, const char *szCommandText) {
+    static int THISCALL HOOK_CFilterScripts__OnPlayerCommandText(void *_this, cell playerid, const char *szCommandText) {
         ProcessCommand(playerid, szCommandText);
 
         return 1;
